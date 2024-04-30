@@ -21,7 +21,7 @@ public class RecordedSimulation extends Simulation {
   
   private Map<CharSequence, String> headers_0 = Map.ofEntries(
     Map.entry("Cache-Control", "no-cache"),
-    Map.entry("accountToken", "bf0c843cd0b4697ba4f42efb0be14799442f6eb5dbd49d58")
+    Map.entry("accountToken", "0d1dd475f94912dec1f5a187e86185953e5a8e64183b84c4")
   );
 /*
 -------------------A login endpoint for authentication------------------------------------------
@@ -36,11 +36,20 @@ public class RecordedSimulation extends Simulation {
  private ScenarioBuilder scn = scenario("login")
     .exec(
       http("request_0")
-        .get("/v3/workspaces?allWorkspaces=true&limit=50")
+        .get("/login")
         .queryParam("User", "admin")
         .queryParam("Password", "admin")
         .headers(headers_1).check(jsonPath("$..token").find().saveAs("accessToken"))
     );
+-----------------------ping endpoint ------------------------------------------------------------
+
+     private ScenarioBuilder auth = scenario("UseAuth")
+          .exec(
+                  http("headers_auth")
+                          .get("/ping")
+                          .headers(headers_1)
+                          .header("token","${accessToken}")
+          );
 --------------------------------------------------------------------------------------------------
 *  */
 
@@ -60,7 +69,7 @@ public class RecordedSimulation extends Simulation {
                   http("headers_auth")
                           .get("/v3/workspaces/")
                           .headers(headers_0)
-                          .queryParam("id", "${accessToken}")
+                          .queryParam("id", "#{accessToken}")
           );
 
   //---------------------------------Injectors with assertion---------------------------------------
