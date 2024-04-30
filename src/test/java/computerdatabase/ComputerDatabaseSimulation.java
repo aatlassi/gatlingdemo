@@ -85,6 +85,9 @@ public class ComputerDatabaseSimulation extends Simulation {
 
     {
         setUp(
+
+
+
             users.injectOpen(rampUsers(10).during(10)),
             admins.injectOpen(rampUsers(2).during(10))
         ).protocols(httpProtocol);
